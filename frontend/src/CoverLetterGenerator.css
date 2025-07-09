@@ -1,0 +1,177 @@
+/* CoverLetterGenerator.css */
+
+.cover-letter-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.cover-letter-card {
+  background: #fff;
+  max-width: 720px;
+  width: 100%;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.cover-letter-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #0b5ed7;
+  margin: 0;
+}
+
+.cover-letter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cover-letter-form label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+.cover-letter-form input[type="file"],
+.cover-letter-form textarea,
+.cover-letter-form select {
+  font-size: 1rem;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1.8px solid #ccc;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.cover-letter-form input[type="file"] {
+  padding: 6px 14px;
+}
+
+.cover-letter-form input[type="file"]:focus,
+.cover-letter-form textarea:focus,
+.cover-letter-form select:focus {
+  border-color: #0b5ed7;
+  box-shadow: 0 0 8px rgba(11, 94, 215, 0.3);
+}
+
+.cover-letter-form button {
+  padding: 14px 0;
+  background-color: #0b5ed7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cover-letter-form button:hover:not(:disabled) {
+  background-color: #0845a3;
+}
+
+.cover-letter-form button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #d93025;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+.cover-letter-result {
+  background-color: #f9faff;
+  border-radius: 10px;
+  padding: 20px 25px;
+  box-shadow: 0 0 12px rgba(11, 94, 215, 0.15);
+  overflow-x: auto;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cover-letter-result h3 {
+  margin: 0 0 10px 0;
+  color: #0b5ed7;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.cover-letter-result pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #222;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+/* Copy button container */
+.copy-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-copy {
+  background-color: #0b5ed7;
+  color: white;
+  padding: 8px 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  font-size: 0.95rem;
+}
+
+.btn-copy:hover {
+  background-color: #0845a3;
+}
+
+.copy-success {
+  color: #198754;
+  font-weight: 600;
+  font-size: 0.95rem;
+  user-select: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .cover-letter-card {
+    padding: 25px 20px;
+  }
+
+  .cover-letter-form button {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+
+  .btn-copy {
+    padding: 7px 14px;
+    font-size: 0.9rem;
+  }
+}

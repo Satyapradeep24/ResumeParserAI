@@ -14,6 +14,8 @@ import AiScoreHistory from './AiScoreHistory';
 import ForgotPasswordPage from './AuthLogins/ForgotPassword';
 import AdminLoginPage from './AuthLogins/AdminLoginPage';
 import AdminDashboardPage from './AdminPages/AdminDashboardPage';
+import CoverLetterGenerator from './CoverLetterGenerator';
+
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { token, role, approved } = useContext(AuthContext);
@@ -104,8 +106,9 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          
           {/* Not approved page */}
+          <Route path="/cover-letter" element={<CoverLetterGenerator />} />
           <Route path="/not-approved" element={<NotApprovedPage />} />
 
           {/* Redirect unknown routes */}

@@ -192,3 +192,59 @@ exports.aiScoreResumes = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+exports.generateCoverLetter = async (req, res) => {
+  try {
+    const file = req.file;
+    const { jobDescription, tone = 'formal' } = req.body;
+
+    if (!file || !jobDescription) {
+      return res.status(400).json({ error: "Resume file and job description are required" });
+    }
+
+    const resumeText = await extractTextFromResume(file.path);
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1000
+      }
+    });
+
+    const prompt = `
+      You are an AI cover letter writer.
+
+      Using this resume information:
+      """
+      ${resumeText}
+      """
+
+      And this job description:
+      """
+      ${jobDescription}
+      """
+
+      Write a personalized cover letter for the position applying to, in a ${tone} tone.
+
+      Make it professional, concise, and highlight the candidate's key skills and experience relevant to the job.
+
+      Return ONLY the cover letter text without any additional commentary.
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const coverLetter = response.text().trim();
+    console.log("Cover letter generation completed");
+    res.json({ coverLetter });
+
+  } catch (error) {
+    console.error("Error generating cover letter:", error);
+    res.status(500).json({ error: "Failed to generate cover letter" });
+  }
+};

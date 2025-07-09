@@ -143,6 +143,12 @@ exports.loginUser = async (req, res) => {
         years_of_experience: foundUser.years_of_experience,
         linkedin_url: foundUser.linkedin_url,
         language: foundUser.language,
+        resume_file: foundUser.resume_file,
+        terms_accepted: foundUser.terms_accepted,
+        approved: foundUser.approved,
+        role: foundUser.role,
+        createdAt: foundUser.createdAt,
+        updatedAt: foundUser.updatedAt
       }
     });
   } catch (err) {
@@ -207,7 +213,7 @@ exports.getUserResumeHistory = async (req, res) => {
     const histories = await ResumeHistory.find({ userId: req.user.id }).sort({ timestamp: -1 });
     console.log('User id: ',  req.user.id)
     // console.log('histories: ',histories)
-    // res.json(histories);
+    res.json(histories);
   } catch (error) {
     console.error('Error fetching resume history:', error);
     res.status(500).json({ error: 'Failed to fetch history' });
@@ -342,5 +348,105 @@ exports.loginAdmin = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Admin login failed', details: err.message });
+  }
+};
+
+
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      first_name,
+      last_name,
+      phone_number,
+      profession_title,
+      years_of_experience,
+      linkedin_url,
+      language,
+    } = req.body;
+
+    const updateFields = {
+      first_name,
+      last_name,
+      phone_number,
+      profession_title,
+      years_of_experience,
+      linkedin_url,
+      language,
+    };
+
+    // Handle resume file upload
+    if (req.file) {
+      const filePath = req.file.path;
+
+      // Optional: delete old resume file
+      const user = await User.findById(userId);
+      if (user.resume_file && fs.existsSync(user.resume_file)) {
+        fs.unlinkSync(user.resume_file);
+      }
+
+      updateFields.resume_file = filePath;
+    }
+
+    const updated = await User.findByIdAndUpdate(userId, updateFields, { new: true });
+
+    if (!updated) return res.status(404).json({ error: 'User not found' });
+
+    res.json({ message: 'Profile updated successfully', user: updated });
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+};
+
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+exports.generateCoverLetter = async (req, res) => {
+  try {
+    const { resumeText, jobDescription, tone = 'formal' } = req.body;
+
+    if (!resumeText || !jobDescription) {
+      return res.status(400).json({ error: "resumeText and jobDescription are required" });
+    }
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1000
+      }
+    });
+
+    const prompt = `
+      You are an AI cover letter writer.
+
+      Using this resume information:
+      """
+      ${resumeText}
+      """
+
+      And this job description:
+      """
+      ${jobDescription}
+      """
+
+      Write a personalized cover letter for the position applying to, in a ${tone} tone.
+
+      Make it professional, concise, and highlight the candidate's key skills and experience relevant to the job.
+
+      Return ONLY the cover letter text without any additional commentary.
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const coverLetter = response.text().trim();
+
+    res.json({ coverLetter });
+
+  } catch (error) {
+    console.error("Error generating cover letter:", error);
+    res.status(500).json({ error: "Failed to generate cover letter" });
   }
 };
