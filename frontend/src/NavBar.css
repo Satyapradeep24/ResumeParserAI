@@ -1,0 +1,120 @@
+.navbar {
+  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  padding: 15px 30px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nav Links */
+.navbar-list li a {
+  color: #4a2c65;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-list li a:hover {
+  background-color: #4a2c65;
+  color: #f0d3aa;
+  text-decoration: none;
+}
+
+/* Dropdown Container */
+.navbar-dropdown {
+  position: relative;
+}
+
+/* Dropdown Toggle Button */
+.dropdown-toggle {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 18px;
+  color: #4a2c65;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus {
+  background-color: #4a2c65;
+  color: #f0d3aa;
+  outline: none;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 110%; /* below the button */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 8px 0;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+/* Dropdown Menu Items */
+.dropdown-menu li {
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: 300;
+  transition: background-color 0.3s;
+}
+
+/* Links inside dropdown */
+.dropdown-menu li a {
+  text-decoration: none;
+  display: block;
+  width: 80%;
+}
+
+/* Hover on dropdown items */
+.dropdown-menu li:hover,
+.dropdown-menu li a:hover {
+  color: #fff;
+}
+
+/* Logout Button inside dropdown */
+.dropdown-menu .logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu .logout-btn:hover {
+  background-color: #cc0000;
+}
+
+/* Logged-in user display fallback */
+.navbar-user {
+  font-weight: 600;
+  color: #fdfdfd;
+  margin-left: 20px;
+  font-size: 16px;
+}

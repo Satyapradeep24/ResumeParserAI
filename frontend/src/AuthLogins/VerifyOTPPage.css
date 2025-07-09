@@ -1,0 +1,135 @@
+.verifyotp-container-wrapper {
+  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.verifyotp-container {
+  max-width: 450px;
+  margin: 60px auto;
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.verifyotp-container h1 {
+  color: #007bff;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.error-msg {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #f5c2c7;
+  text-align: left;
+}
+
+.success-msg {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #badbcc;
+  text-align: left;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register-form input[type="email"],
+.register-form input[type="text"] {
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 1.1rem;
+  transition: border-color 0.3s ease;
+}
+
+.register-form input[type="email"]:focus,
+.register-form input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.register-form button {
+  background-color: #007bff;
+  color: white;
+  font-weight: 700;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.register-form button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.register-form button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.resend-btn {
+  margin-top: 15px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.resend-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.resend-btn:hover:not(:disabled) {
+  background-color: #1e7e34;
+}
+
+.register-footer {
+  margin-top: 35px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.register-footer a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.register-footer a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .verifyotp-container {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+}

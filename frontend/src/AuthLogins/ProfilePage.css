@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.profile-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 10px;
+}
+
+.profile-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.error-msg {
+  color: red;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.results-box {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.results-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.results-box th,
+.results-box td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.results-box th {
+  background: #f0f8ff;
+  font-weight: bold;
+}
