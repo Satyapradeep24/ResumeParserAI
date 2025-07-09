@@ -40,7 +40,7 @@ function NavBar() {
           </li>
         )}
 
-        {/* Both admin and user can access Parser and AI Scoring */}
+        {/* Both admin and user can access these */}
         {token && (role === 'user' || role === 'admin') && (
           <>
             <li>
@@ -53,10 +53,15 @@ function NavBar() {
                 AI Scoring
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/cover-letter" className={({ isActive }) => (isActive ? 'active-link' : '')}>
+                Cover Letter Generator
+              </NavLink>
+            </li>
           </>
         )}
 
-        {/* Admin dashboard link only for admin */}
+        {/* Admin dashboard only for admin */}
         {token && role === 'admin' && (
           <li>
             <NavLink to="/adminDashboard" className={({ isActive }) => (isActive ? 'active-link' : '')}>

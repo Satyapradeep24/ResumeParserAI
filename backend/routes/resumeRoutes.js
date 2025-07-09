@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { batchUploadResumes, aiScoreResumes } = require("../controllers/resumeController");
+const { batchUploadResumes, aiScoreResumes, generateCoverLetter } = require("../controllers/resumeController");
 const {authenticateUser} = require('../middleware/authMiddleware'); 
 
 
@@ -28,5 +28,9 @@ router.post("/ai-score",authenticateUser, upload.array("resumes"), (req, res) =>
   req.body.modelType = req.body.modelType || 'gemini';
   aiScoreResumes(req, res);
 });
+
+const authController = require("../controllers/authController");
+router.post('/generate-cover-letter', authenticateUser, upload.single('file'), generateCoverLetter);
+
 
 module.exports = router;

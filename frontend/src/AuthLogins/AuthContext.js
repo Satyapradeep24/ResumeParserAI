@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // Existing user login
   const login = async (email, password) => {
     const res = await fetch('http://localhost:3000/api/auth/userLogin', {
       method: 'POST',
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(data.user));
   };
 
-  // New Admin login
   const loginAdmin = async (email, password) => {
     const res = await fetch('http://localhost:3000/api/auth/adminLogin', {
       method: 'POST',
@@ -70,7 +68,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, role, approved, user, login, loginAdmin, logout }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        role,
+        approved,
+        user,
+        setUser, // ✅ expose this
+        login,
+        loginAdmin,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
