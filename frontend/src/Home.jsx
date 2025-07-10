@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import './App.css';
 import JobHunt from './images/JobHunt.png';
 
 function Home() {
@@ -44,24 +43,33 @@ function Home() {
   }, [userId, token]);
 
   const featureList = [
-    { icon: '⚡', text: 'Fast & Accurate Google gemini parsing' },
-    { icon: '🤖', text: 'AI Candidate Scoring' },
-    { icon: '🔒', text: 'Secure & Private' },
-    { icon: '📄', text: 'Multi-format Support' },
+    { icon: '⚡', text: 'Lightning-fast Gemini AI parsing' },
+    { icon: '🤖', text: 'Automated Candidate Scoring with AI' },
+    { icon: '🔒', text: 'End-to-End Data Privacy & Security' },
+    { icon: '📄', text: 'Supports PDF, Word & Image Files' },
   ];
 
   const stats = [
     { label: '📄 Resumes Parsed', value: '30+' },
     { label: '🎯 Jobs Matched', value: '70+' },
-    { label: '😊 User Satisfaction', value: 'On process...' },
+    { label: '😊 User Satisfaction', value: 'In Progress...' },
   ];
 
+  const cardStyle = {
+    borderRadius: '12px',
+    background: '#fff',
+    padding: '30px',
+    boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+    minWidth: '250px',
+    textAlign: 'center',
+    transition: 'transform 0.3s ease',
+  };
 
   const ctaBtnStyle = {
-    marginTop: '10px',
+    marginTop: '15px',
     padding: '12px 24px',
     fontSize: '1rem',
-    fontWeight: 'bold',
+    fontWeight: '600',
     backgroundColor: '#007bff',
     color: '#fff',
     border: 'none',
@@ -74,155 +82,115 @@ function Home() {
     <div style={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%)',
-      padding: '40px',
+      padding: '50px 20px',
       boxSizing: 'border-box',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Segoe UI, sans-serif'
     }}>
       {!user ? (
         <>
-          {/* <div style={{ marginLeft: '580px' }}>
-                <button onClick={() => navigate("/login")} style={ctaBtnStyle}>Login</button>
-                <button
-                  onClick={() => navigate("/register")}
-                  style={{ ...ctaBtnStyle, marginLeft: '15px', backgroundColor: '#6c63ff' }}
-                >
-                  Register
-                </button>
-              </div> */}
-          {/* Top Section: Image + Features */}
+          {/* Hero Section */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            alignItems: 'center',
             justifyContent: 'center',
-            gap: '40px',
-            marginBottom: '50px'
+            alignItems: 'center',
+            gap: '50px',
+            marginBottom: '60px'
           }}>
-            {/* Left - Image */}
             <img
               src={JobHunt}
-              alt="Job Hunt"
-              style={{
-                width: '400px',
-                maxWidth: '90vw',
-                borderRadius: '12px',
-                
-              }}
+              alt="Job Search"
+              style={{ width: '380px', maxWidth: '90vw', borderRadius: '16px' }}
             />
-
-            {/* Right - Features */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '20px',
-              maxWidth: '400px'
-            }}>
-              <h1 style={{ fontSize: '2rem', color: '#333', marginBottom: '10px' }}>
-                Why Choose Us?
+            <div style={{ maxWidth: '500px' }}>
+              <h1 style={{ fontSize: '2.4rem', color: '#333', marginBottom: '20px' }}>
+                Transform Your Resume with AI Power
               </h1>
-              {featureList.map((f, idx) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '15px',
-                  borderRadius: '10px',
-                  padding: '15px 20px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
-                  color: '#007bff'
-                }}>
-                  <span style={{ fontSize: '1.8rem' }}>{f.icon}</span>
-                  <span>{f.text}</span>
-                </div>
-              ))}
-
-              {/* CTA Buttons */}
-              
+              <p style={{ fontSize: '1.1rem', color: '#555', marginBottom: '30px' }}>
+                Unlock job opportunities with cutting-edge resume parsing, AI scoring, and personalized cover letters.
+              </p>
+              <button
+                onClick={() => navigate("/register")}
+                style={ctaBtnStyle}
+              >
+                Get Started Free →
+              </button>
             </div>
           </div>
 
-          {/* Stats Section */}
+          {/* Features */}
           <div style={{
             display: 'flex',
-            justifyContent: 'center',
-            gap: '50px',
             flexWrap: 'wrap',
-            marginTop: '40px'
+            justifyContent: 'center',
+            gap: '25px',
+            marginBottom: '40px'
           }}>
-            {stats.map(({ label, value }, idx) => (
+            {featureList.map(({ icon, text }, idx) => (
               <div key={idx} style={{
-                // backgroundColor: '#007bff',
-                color: 'white',
-                borderRadius: '12px',
-                padding: '25px 40px',
-                boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
-                minWidth: '150px',
-                fontWeight: '700',
-                fontSize: '1.3rem',
-                userSelect: 'none',
-                textAlign: 'center'
+                ...cardStyle,
+                maxWidth: '300px',
+                fontSize: '1rem',
+                fontWeight: '500',
+                color: '#007bff'
               }}>
-                <div style={{ fontSize: '2.5rem' }}>{value}</div>
-                <div style={{ marginTop: '5px', fontSize: '1rem', fontWeight: '500' }}>{label}</div>
+                <div style={{ fontSize: '2rem', marginBottom: '15px' }}>{icon}</div>
+                {text}
               </div>
             ))}
           </div>
-        </>
-      ) : (
-        <div style={{ padding: '50px', textAlign: 'center' }}>
-          <h1>Welcome to the Resume Parser App</h1>
-          <h2>Dashboard</h2>
+
+          {/* Stats */}
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '20px',
-            marginTop: '30px',
+            gap: '40px',
             flexWrap: 'wrap'
           }}>
-            <div style={{
-              border: '1px solid #ccc',
-              padding: '20px',
-              width: '250px',
-              borderRadius: '10px',
-              backgroundColor: '#f3f3f3',
-              boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
+            {stats.map(({ label, value }, idx) => (
+              <div key={idx} style={{
+                ...cardStyle,
+                background: '#333',
+                color: 'white',
+                minWidth: '200px',
+                fontSize: '1.2rem'
+              }}>
+                <div style={{ fontSize: '2.2rem', marginBottom: '10px' }}>{value}</div>
+                {label}
+              </div>
+            ))}
+          </div>
+
+
+        </>
+      ) : (
+        <div style={{ padding: '50px 20px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '2rem', color: '#333' }}>Welcome back, {user.first_name}!</h1>
+          <h3 style={{ color: '#555', marginTop: '10px' }}>Your Personalized Dashboard</h3>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '30px',
+            marginTop: '40px',
+            flexWrap: 'wrap'
+          }}>
+            <div style={cardStyle}>
               <h3>Parsed Resume Count</h3>
-              <p>{parsedCount}</p>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{parsedCount}</p>
               <button style={ctaBtnStyle} onClick={() => navigate("/resume-history")}>
                 View History
               </button>
             </div>
-
-            <div style={{
-              border: '1px solid #ccc',
-              padding: '20px',
-              width: '250px',
-              borderRadius: '10px',
-              backgroundColor: '#f3f3f3',
-              boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <h3>Past AI Score History</h3>
-              <p>{aiScoreCount}</p>
+            <div style={cardStyle}>
+              <h3>AI Score Submissions</h3>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{aiScoreCount}</p>
               <button style={ctaBtnStyle} onClick={() => navigate("/ai-score-history")}>
                 View AI Scores
               </button>
             </div>
-
-            <div style={{
-              border: '1px solid #ccc',
-              padding: '20px',
-              width: '250px',
-              borderRadius: '10px',
-              backgroundColor: '#f3f3f3',
-              boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <h3>AI Model Used</h3>
-              <p>Gemini (default)</p>
+            <div style={cardStyle}>
+              <h3>Active AI Model</h3>
+              <p style={{ fontSize: '1.4rem', fontWeight: 'bold' }}>Gemini (Default)</p>
             </div>
           </div>
         </div>

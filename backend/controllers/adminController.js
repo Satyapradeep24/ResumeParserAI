@@ -82,3 +82,31 @@ exports.getDashboardStats = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch dashboard stats' });
   }
 };
+
+
+const AuditLog = require('../models/AuditLog');
+
+exports.getAuditLogs = async (req, res) => {
+  try {
+    const { userId, modelType, action, startDate, endDate } = req.query;
+
+    const query = {};
+    if (userId) query.userId = userId;
+    if (modelType) query.modelType = modelType;
+    if (action) query.action = action;
+    if (startDate || endDate) {
+      query.timestamp = {};
+      if (startDate) query.timestamp.$gte = new Date(startDate);
+      if (endDate) query.timestamp.$lte = new Date(endDate);
+    }
+
+    const logs = await AuditLog.find(query)
+      .sort({ timestamp: -1 })
+      .populate('userId', 'first_name last_name email');
+
+    res.json(logs);
+  } catch (err) {
+    console.error('Error fetching audit logs:', err);
+    res.status(500).json({ error: 'Failed to fetch audit logs' });
+  }
+};

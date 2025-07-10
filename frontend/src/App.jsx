@@ -15,6 +15,10 @@ import ForgotPasswordPage from './AuthLogins/ForgotPassword';
 import AdminLoginPage from './AuthLogins/AdminLoginPage';
 import AdminDashboardPage from './AdminPages/AdminDashboardPage';
 import CoverLetterGenerator from './CoverLetterGenerator';
+import AuditLogsPage from './AdminPages/AuditLogsPage';
+import ViewUsersPage from './AdminPages/ViewUsersPage';
+import LoginSuccess from './AuthLogins/LoginSuccess';
+import CompleteProfile from './AuthLogins/CompleteProfile';
 
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -110,6 +114,14 @@ function App() {
           {/* Not approved page */}
           <Route path="/cover-letter" element={<CoverLetterGenerator />} />
           <Route path="/not-approved" element={<NotApprovedPage />} />
+
+          <Route path="/auditlogs" element={<AuditLogsPage />} />
+          
+          <Route path="/view-users" element={<ViewUsersPage />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
+
+
 
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />

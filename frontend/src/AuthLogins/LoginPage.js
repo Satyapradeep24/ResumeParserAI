@@ -59,6 +59,23 @@ function LoginPage() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+        <button
+          onClick={() => {
+            window.location.href = "http://localhost:3000/auth/google";
+          }}
+          style={{
+            backgroundColor: '#4285F4',
+            color: 'white',
+            padding: '10px 20px',
+            borderRadius: '4px',
+            border: 'none',
+            cursor: 'pointer',
+            marginTop: '20px'
+          }}
+        >
+          Login with Google
+        </button>
+
 
         <div className="login-footer">
           <p>

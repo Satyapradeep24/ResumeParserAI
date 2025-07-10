@@ -5,6 +5,8 @@ const authController = require('../controllers/authController');
 const multer = require('multer');
 const path = require('path');
 const {authenticateUser} = require('../middleware/authMiddleware');
+const User = require('../models/User');  // <-- Add this line
+
 
 
 // Setup resume file upload
@@ -34,6 +36,22 @@ router.put('/update-profile', authenticateUser, upload.single('resume_file'), au
 router.post('/forgot-password', authController.forgotPassword);
 router.post('/verify-reset-otp', authController.verifyResetOtp);
 router.post('/reset-password', authController.resetPassword);
+router.post('/complete-google-profile', authController.completeGoogleProfile);
+
+router.get('/profile', authenticateUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      console.error(`User not found with ID: ${req.user.id}`);
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ user });
+  } catch (err) {
+    console.error('Error fetching user profile:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 // adminRoutes.js
 router.post('/adminLogin', authController.loginAdmin);
