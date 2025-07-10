@@ -19,7 +19,8 @@ function AiScoreHistory() {
 
     const fetchScores = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/auth/ai-score-history', {
+        // const res = await fetch('http://localhost:3000/api/auth/ai-score-history', {
+        const res = await fetch('https://resumeparserai.onrender.com/api/auth/ai-score-history', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

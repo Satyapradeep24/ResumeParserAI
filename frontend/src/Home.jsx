@@ -17,7 +17,8 @@ function Home() {
 
     const fetchParsedCount = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/auth/count?userId=${userId}`, {
+        // const response = await fetch(`http://localhost:3000/api/auth/count?userId=${userId}`, {
+        const response = await fetch(`https://resumeparserai.onrender.com/api/auth/count?userId=${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
@@ -29,7 +30,8 @@ function Home() {
 
     const fetchAiScoreCount = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/auth/ai-score-count?userId=${userId}`, {
+        // const response = await fetch(`http://localhost:3000/api/auth/ai-score-count?userId=${userId}`, {
+        const response = await fetch(`https://resumeparserai.onrender.com/api/auth/ai-score-count?userId=${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();

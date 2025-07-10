@@ -10,7 +10,8 @@ const ViewUsersPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/admin/users", {
+      // const res = await fetch("http://localhost:3000/api/admin/users", {
+      const res = await fetch("https://resumeparserai.onrender.com/api/admin/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

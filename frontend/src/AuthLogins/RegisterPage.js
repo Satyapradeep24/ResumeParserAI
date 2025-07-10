@@ -73,7 +73,8 @@ function RegisterPage() {
       data.append('role', 'user');
       data.append('terms_accepted', formData.terms_accepted);
 
-      const res = await fetch('http://localhost:3000/api/auth/registerUser', {
+      // const res = await fetch('http://localhost:3000/api/auth/registerUser', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/auth/registerUser', {
         method: 'POST',
         body: data,
       });

@@ -36,7 +36,8 @@ const AuditLogsPage = () => {
       if (dateFrom) params.append("dateFrom", dateFrom);
       if (dateTo) params.append("dateTo", dateTo);
 
-      const res = await fetch(`http://localhost:3000/api/admin/audit-logs?${params.toString()}`, {
+      // const res = await fetch(`http://localhost:3000/api/admin/audit-logs?${params.toString()}`, {
+      const res = await fetch(`https://resumeparserai.onrender.com/api/admin/audit-logs?${params.toString()}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

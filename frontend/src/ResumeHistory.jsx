@@ -18,7 +18,8 @@ function ResumeHistory() {
 
     const fetchHistory = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/auth/history', {
+        // const res = await fetch('http://localhost:3000/api/auth/history', {
+        const res = await fetch('https://resumeparserai.onrender.com/api/auth/history', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

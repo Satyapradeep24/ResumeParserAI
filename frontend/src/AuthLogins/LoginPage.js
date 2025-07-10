@@ -61,7 +61,8 @@ function LoginPage() {
         </form>
         <button
           onClick={() => {
-            window.location.href = "http://localhost:3000/auth/google";
+            // window.location.href = "http://localhost:3000/auth/google";
+            window.location.href = "https://resumeparserai.onrender.com/auth/google";
           }}
           className="login-google-btn"
         >

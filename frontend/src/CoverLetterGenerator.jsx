@@ -30,7 +30,8 @@ const CoverLetterGenerator = () => {
       formData.append('jobDescription', jobDescription);
       formData.append('tone', tone);
 
-      const res = await fetch('http://localhost:3000/api/resume/generate-cover-letter', {
+      // const res = await fetch('http://localhost:3000/api/resume/generate-cover-letter', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/resume/generate-cover-letter', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

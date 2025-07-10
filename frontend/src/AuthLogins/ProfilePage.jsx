@@ -69,7 +69,8 @@ function ProfilePage() {
     }
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/update-profile', {
+      // const res = await fetch('http://localhost:3000/api/auth/update-profile', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/auth/update-profile', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -118,7 +119,8 @@ function ProfilePage() {
                   <tr><th>Experience</th><td>{user.years_of_experience || '-'} years</td></tr>
                   <tr><th>LinkedIn</th><td>{user.linkedin_url ? <a href={user.linkedin_url} target="_blank" rel="noreferrer">View</a> : '-'}</td></tr>
                   <tr><th>Language</th><td>{user.language || '-'}</td></tr>
-                  <tr><th>Resume</th><td>{user.resume_file ? <a href={`http://localhost:3000/${user.resume_file}`} target="_blank" rel="noreferrer">Download</a> : 'Not uploaded'}</td></tr>
+                  {/* <tr><th>Resume</th><td>{user.resume_file ? <a href={`http://localhost:3000/${user.resume_file}`} target="_blank" rel="noreferrer">Download</a> : 'Not uploaded'}</td></tr> */}
+                  <tr><th>Resume</th><td>{user.resume_file ? <a href={`https://resumeparserai.onrender.com/${user.resume_file}`} target="_blank" rel="noreferrer">Download</a> : 'Not uploaded'}</td></tr>
                   <tr><th>Terms Accepted</th><td>{user.terms_accepted ? '✔ Yes' : '✘ No'}</td></tr>
                 </tbody>
               </table>

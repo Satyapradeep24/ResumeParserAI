@@ -39,7 +39,8 @@ const CompleteProfile = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/complete-google-profile', {
+      // const res = await fetch('http://localhost:3000/api/auth/complete-google-profile', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/auth/complete-google-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

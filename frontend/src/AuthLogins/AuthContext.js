@@ -12,7 +12,8 @@ export const AuthProvider = ({ children }) => {
   });
 
   const login = async (email, password) => {
-    const res = await fetch('http://localhost:3000/api/auth/userLogin', {
+    // const res = await fetch('http://localhost:3000/api/auth/userLogin', {
+    const res = await fetch("https://resumeparserai.onrender.com/api/admin/users", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -36,7 +37,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loginAdmin = async (email, password) => {
-    const res = await fetch('http://localhost:3000/api/auth/adminLogin', {
+    // const res = await fetch('http://localhost:3000/api/auth/adminLogin', {
+    const res = await fetch('https://resumeparserai.onrender.com/api/auth/adminLogin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),

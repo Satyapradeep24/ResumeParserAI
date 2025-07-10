@@ -20,7 +20,8 @@ function LoginSuccess() {
         }
 
         // Fetch user profile with token
-        const res = await fetch('http://localhost:3000/api/auth/profile', {
+        // const res = await fetch('http://localhost:3000/api/auth/profile', {
+        const res = await fetch('https://resumeparserai.onrender.com/api/auth/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

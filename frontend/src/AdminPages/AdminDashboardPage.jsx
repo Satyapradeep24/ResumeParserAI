@@ -32,7 +32,8 @@ export default function AdminDashboard() {
   // Fetch dashboard stats
   const fetchStats = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/admin/dashboard/stats', {
+      // const res = await fetch('http://localhost:3000/api/admin/dashboard/stats', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/admin/dashboard/stats', {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

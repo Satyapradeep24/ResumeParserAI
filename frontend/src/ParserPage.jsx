@@ -117,7 +117,8 @@ function ParserPage() {
         return;
       }
 
-      const response = await fetch('http://localhost:3000/api/resume/batch-upload', {
+      // const response = await fetch('http://localhost:3000/api/resume/batch-upload', {
+      const response = await fetch('https://resumeparserai.onrender.com/api/resume/batch-upload', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,  // <-- Add token here

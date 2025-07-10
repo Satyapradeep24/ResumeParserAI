@@ -78,7 +78,8 @@ function AIScoringPage() {
     formData.append('jobDescription', jobDescription);
 
     try {
-      const res = await fetch('http://localhost:3000/api/resume/ai-score', {
+      // const res = await fetch('http://localhost:3000/api/resume/ai-score', {
+      const res = await fetch('https://resumeparserai.onrender.com/api/resume/ai-score', {
         headers: {
           Authorization: `Bearer ${token}`,  // <-- Add token here
         },
