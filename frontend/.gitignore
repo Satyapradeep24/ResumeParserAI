@@ -73,7 +73,6 @@ client/npm-debug.log*
 *.archive
 
 # Image cache
-*.png
 *.jpg
 *.jpeg
 *.gif
