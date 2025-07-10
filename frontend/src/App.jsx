@@ -18,6 +18,7 @@ import CoverLetterGenerator from './CoverLetterGenerator';
 import AuditLogsPage from './AdminPages/AuditLogsPage';
 import ViewUsersPage from './AdminPages/ViewUsersPage';
 import LoginSuccess from './AuthLogins/LoginSuccess';
+import CompleteProfile from './AuthLogins/CompleteProfile';
 
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -118,6 +119,8 @@ function App() {
           
           <Route path="/view-users" element={<ViewUsersPage />} />
           <Route path="/login-success" element={<LoginSuccess />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
+
 
 
           {/* Redirect unknown routes */}

@@ -160,12 +160,6 @@ function Home() {
               </div>
             ))}
           </div>
-          {/* <button 
-            onClick={() => window.location.href = "http://localhost:3000/auth/google"} 
-            style={{backgroundColor: '#4285F4', color: 'white', padding: '10px 20px', borderRadius: '4px'}}
-          >
-            Login with Google
-          </button> */}
 
 
         </>

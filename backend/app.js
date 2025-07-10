@@ -67,19 +67,28 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use(new googleStrategy({
-  clientID:process.env.GOOGLE_CLIENT_ID,
-  clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/callback"
-},async(accessToken,refreshToken,profile,done)=>{
-  try{
-    const { token, user } = await authController.handleGoogleLogin(profile);
-    done(null, { token, user });
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('./models/User');
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/callback"
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      // Confirm profile.emails exists
+      if (!profile.emails || profile.emails.length === 0) {
+        return done(new Error("No email found in Google profile"), null);
+      }
+
+      // Return entire profile to req.user
+      return done(null, profile);
+    } catch (err) {
+      done(err, null);
+    }
   }
-  catch(error){
-    done(error, null);
-  }
-}))
+));
 
 passport.serializeUser((user,done) => done(null,user))
 passport.deserializeUser((user,done) =>  done(null,user))
@@ -90,17 +99,36 @@ passport.deserializeUser((user,done) =>  done(null,user))
 
 app.get(
   "/auth/google", 
-  passport.authenticate("google", { scope: ["email", "profile"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    const token = req.user.token;
-    res.redirect(`http://localhost:3001/login-success#token=${token}`);
-  }
-);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  async (req, res) => {
+    try {
+      const profile = req.user;
+      const result = await authController.handleGoogleLogin(profile);
+
+      if (result.isNewUser) {
+        const redirectURL = new URL('http://localhost:3001/complete-profile');
+        redirectURL.searchParams.set('email', result.prefill.email);
+        redirectURL.searchParams.set('first_name', result.prefill.first_name);
+        redirectURL.searchParams.set('last_name', result.prefill.last_name);
+        return res.redirect(redirectURL.toString());
+      }
+
+      // 🔥 Redirect with token for existing users
+      return res.redirect(`http://localhost:3001/login-success#token=${result.token}`);
+    } catch (err) {
+      console.error('Google login error:', err);
+      res.redirect('/login');
+    }
+  });
+
+
+
+
 app.get("/profile", (req, res) => {
   const user = req.user;
 

@@ -454,36 +454,129 @@ exports.generateCoverLetter = async (req, res) => {
 
 
 
+
+
+
+
 exports.handleGoogleLogin = async (profile) => {
   try {
-    const email = profile.emails?.[0]?.value.toLowerCase();
-    if (!email) throw new Error('No email found in Google profile');
-
-    // Find if user already exists
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      // Create new user from Google profile
-      user = new User({
-        first_name: profile.name?.givenName || '-',
-        last_name: profile.name?.familyName || '-',
-        email,
-        password: '-', // No password since OAuth
-        profession_title: 'Not provided', // Or leave blank or add a default
-        years_of_experience: 0,
-        role: 'user',
-        approved: true, // auto-approved for Google login users
-        terms_accepted: true,
-      });
-
-      await user.save();
+    const email = profile.emails?.[0]?.value?.toLowerCase();
+    if (!email) {
+      const err = new Error('No email found in Google profile');
+      console.error('handleGoogleLogin error:', err.message);
+      throw err;
     }
 
-    // Generate JWT token for user
-    const token = jwt.sign({ id: user._id, role: user.role }, SECRET, { expiresIn: '1d' });
+    let user = await User.findOne({ email });
+    if (!user) {
+      console.log(`New Google user detected, email: ${email}`);
+      return {
+        isNewUser: true,
+        prefill: {
+          email,
+          first_name: profile.name?.givenName || '',
+          last_name: profile.name?.familyName || '',
+        },
+      };
+    }
 
-    return { token, user };
+    const token = jwt.sign({ id: user._id, role: user.role }, SECRET, { expiresIn: '1d' });
+    console.log(`Existing user logged in via Google: ${email}`);
+
+    return { 
+      token, 
+      isNewUser: false, 
+      user: {
+        _id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        role: user.role,
+        approved: user.approved,
+        phone_number: user.phone_number,
+        profession_title: user.profession_title,
+        years_of_experience: user.years_of_experience,
+        linkedin_url: user.linkedin_url,
+        language: user.language,
+        terms_accepted: user.terms_accepted,
+      }
+    };
   } catch (err) {
+    console.error('handleGoogleLogin unexpected error:', err);
     throw err;
   }
 };
+
+exports.completeGoogleProfile = async (req, res) => {
+  try {
+    const {
+      email,
+      first_name,
+      last_name,
+      phone_number,
+      profession_title,
+      years_of_experience,
+      linkedin_url,
+      language,
+      terms_accepted
+    } = req.body;
+
+    if (!email) {
+      console.error('completeGoogleProfile error: Email is required');
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+    let user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      console.log(`Creating new user from Google profile completion: ${normalizedEmail}`);
+      user = new User({
+        email: normalizedEmail,
+        first_name,
+        last_name,
+        phone_number,
+        profession_title,
+        years_of_experience,
+        linkedin_url,
+        language: language || 'en',
+        terms_accepted: terms_accepted || false,
+        password: '-', // dummy password for OAuth users
+        role: 'user',
+        approved: true // auto-approved
+      });
+
+      await user.save();
+      console.log(`New user created with ID: ${user._id}`);
+    } else {
+      console.log(`Updating existing user profile: ${normalizedEmail}`);
+
+      user.first_name = first_name || user.first_name;
+      user.last_name = last_name || user.last_name;
+      user.phone_number = phone_number;
+      user.profession_title = profession_title;
+      user.years_of_experience = years_of_experience;
+      user.linkedin_url = linkedin_url;
+      user.language = language || 'en';
+      user.terms_accepted = terms_accepted || false;
+
+      await user.save();
+      console.log(`User updated with ID: ${user._id}`);
+    }
+
+    const token = jwt.sign({ id: user._id, role: user.role }, SECRET, { expiresIn: '1d' });
+
+    res.json({
+      token,
+      role: user.role,
+      approved: user.approved,
+      user
+    });
+  } catch (err) {
+    console.error('completeGoogleProfile unexpected error:', err);
+    res.status(500).json({ error: 'Failed to complete profile' });
+  }
+};
+
+
+
