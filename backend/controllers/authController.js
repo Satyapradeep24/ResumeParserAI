@@ -450,3 +450,40 @@ exports.generateCoverLetter = async (req, res) => {
     res.status(500).json({ error: "Failed to generate cover letter" });
   }
 };
+
+
+
+
+exports.handleGoogleLogin = async (profile) => {
+  try {
+    const email = profile.emails?.[0]?.value.toLowerCase();
+    if (!email) throw new Error('No email found in Google profile');
+
+    // Find if user already exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user from Google profile
+      user = new User({
+        first_name: profile.name?.givenName || '-',
+        last_name: profile.name?.familyName || '-',
+        email,
+        password: '-', // No password since OAuth
+        profession_title: 'Not provided', // Or leave blank or add a default
+        years_of_experience: 0,
+        role: 'user',
+        approved: true, // auto-approved for Google login users
+        terms_accepted: true,
+      });
+
+      await user.save();
+    }
+
+    // Generate JWT token for user
+    const token = jwt.sign({ id: user._id, role: user.role }, SECRET, { expiresIn: '1d' });
+
+    return { token, user };
+  } catch (err) {
+    throw err;
+  }
+};

@@ -71,10 +71,13 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         token,
+        setToken,      // <-- exposed setter
         role,
+        setRole,       // <-- exposed setter
         approved,
+        setApproved,   // <-- exposed setter
         user,
-        setUser, // ✅ expose this
+        setUser,       // <-- exposed setter
         login,
         loginAdmin,
         logout,

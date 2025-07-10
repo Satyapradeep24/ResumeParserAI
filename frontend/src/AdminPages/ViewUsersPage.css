@@ -1,0 +1,197 @@
+/* Page background & layout */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* White container with subtle elevation */
+.container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.06);
+  padding: 40px 35px;
+  max-width: 1150px;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.15),
+    0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Page title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a3e7b; /* dark blue */
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* Table wrapper for horizontal scroll */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #c1d4f0; /* light blue border */
+  box-shadow: inset 0 0 12px #d9e6fb; /* lighter blue inset */
+  background-color: #f6f9ff; /* very light blue background */
+  padding: 20px;
+}
+
+/* Table style */
+.history-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* spacing between rows */
+  font-size: 1rem;
+  color: #2c427b; /* medium blue */
+  user-select: none;
+  min-width: 900px;
+}
+
+/* Table header */
+.history-table thead {
+  background-color: #1a3e7b; /* dark blue */
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow:
+    0 4px 6px rgba(26, 62, 123, 0.3);
+  border-radius: 12px 12px 0 0;
+}
+
+/* Header cells */
+.history-table th {
+  padding: 14px 18px;
+  white-space: nowrap;
+  border-right: 1px solid #3460ac; /* medium blue border */
+}
+
+.history-table th:last-child {
+  border-right: none;
+}
+
+/* Body rows with "card style" effect */
+.history-table tbody tr {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow:
+    0 2px 6px rgba(26, 62, 123, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-table tbody tr:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.history-table tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 6px 15px rgba(26, 62, 123, 0.25);
+  cursor: default;
+}
+
+/* Body cells */
+.history-table td {
+  padding: 16px 18px;
+  vertical-align: middle;
+  border-right: 1px solid #e3eafc; /* very light blue border */
+  white-space: nowrap;
+  font-weight: 500;
+  color: #1f3470; /* darker blue */
+}
+
+.history-table td:last-child {
+  border-right: none;
+}
+
+/* Alternate row background for better reading */
+.history-table tbody tr:nth-child(even) {
+  background: #f0f5ff; /* very light blue */
+}
+
+/* Link styling for Linkedin URLs */
+.link {
+  color: #1a3e7b; /* dark blue */
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  max-width: 180px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link:hover,
+.link:focus {
+  color: #13406a; /* slightly darker blue */
+  text-decoration: underline;
+  outline: none;
+}
+
+/* Accessibility: focus visible */
+.link:focus-visible {
+  outline: 3px solid #a8c1ff; /* light blue outline */
+  outline-offset: 2px;
+}
+
+/* Error message */
+.error {
+  color: #d32f2f;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 25px;
+  font-size: 1.2rem;
+}
+
+/* No data message */
+.no-data-msg {
+  margin-top: 28px;
+  font-weight: 600;
+  text-align: center;
+  color: #5572c6; /* medium blue */
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .history-table {
+    font-size: 0.9rem;
+  }
+
+  .history-table th, 
+  .history-table td {
+    padding: 12px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 15px;
+  }
+
+  .history-table {
+    min-width: 700px;
+  }
+}

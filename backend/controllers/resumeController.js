@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ResumeHistory = require("../models/ResumeHistory");
 const AiScore = require('../models/AiScoreSchema');
+const AuditLog = require("../models/AuditLog");
 
 const {
   extractTextFromResume,
@@ -23,14 +24,14 @@ const checkPositionMatch = aiScoring.checkPositionMatch;
 const fs = require('fs');
 const path = require('path');
 const xlsx = require('xlsx');
-const AiScoreSchema = require('../models/AiScoreSchema');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Rate limiting
 const RATE_LIMIT = 12;
 const BATCH_SIZE = 4;
 const BATCH_DELAY = Math.floor(60000 / (RATE_LIMIT / BATCH_SIZE));
 
-// Calculate experience
 function calculateTotalExperience(experience) {
   let totalMonths = 0;
   if (!experience || !Array.isArray(experience) || experience.length === 0) {
@@ -62,8 +63,19 @@ function calculateTotalExperience(experience) {
   };
 }
 
-// Process a batch
-async function processBatch(files, startIndex, results, errors, modelType, jobDescription, userId) {
+async function logAudit({ userId, action, modelType, fileName, ip }) {
+  const log = new AuditLog({
+    userId,
+    action,
+    modelType,
+    fileName,
+    ip,
+    timestamp: new Date()
+  });
+  await log.save();
+}
+
+async function processBatch(files, startIndex, results, errors, modelType, jobDescription, userId, ip) {
   const batch = files.slice(startIndex, startIndex + BATCH_SIZE);
   const batchPromises = batch.map(async (file) => {
     try {
@@ -71,16 +83,11 @@ async function processBatch(files, startIndex, results, errors, modelType, jobDe
       let parsedResume;
 
       switch (modelType) {
-        case 'gpt4':
-          parsedResume = await parseResumeWithGPT4(extractedText); break;
-        case 'deepseek':
-          parsedResume = await parseResumeWithDeepSeek(extractedText); break;
-        case 'llama':
-          parsedResume = await parseResumeWithLlama(extractedText); break;
-        case 'nvidia':
-          parsedResume = await parseResumeWithNvidiaLlama(extractedText); break;
-        default:
-          parsedResume = await parseResumeWithGemini(extractedText);
+        case 'gpt4': parsedResume = await parseResumeWithGPT4(extractedText); break;
+        case 'deepseek': parsedResume = await parseResumeWithDeepSeek(extractedText); break;
+        case 'llama': parsedResume = await parseResumeWithLlama(extractedText); break;
+        case 'nvidia': parsedResume = await parseResumeWithNvidiaLlama(extractedText); break;
+        default: parsedResume = await parseResumeWithGemini(extractedText);
       }
 
       const totalExperience = calculateTotalExperience(parsedResume.experience);
@@ -100,8 +107,7 @@ async function processBatch(files, startIndex, results, errors, modelType, jobDe
       };
       results.push(result);
 
-      // Save history to MongoDB
-      const history = new ResumeHistory({
+      await new ResumeHistory({
         userId,
         fileName: result.fileName,
         fullName: result.fullName || '',
@@ -110,21 +116,28 @@ async function processBatch(files, startIndex, results, errors, modelType, jobDe
         postAppliedFor: result.postAppliedFor || '',
         modelType,
         aiScore: aiScore.aiScore
-      });
-      await history.save();
+      }).save();
 
-      const aiScoreEntry = new AiScore({
-      userId,
-      fileName: result.fileName,
-      postAppliedFor: result.postAppliedFor || '',
-      modelType,
-      aiScore: aiScore.aiScore,
-      positionMatch: positionMatch || aiScore.positionMatch,
-      matchReasons: aiScore.matchReasons || [],
-      mismatchReasons: aiScore.mismatchReasons || [],
-      jobDescription: jobDescription || ''
-    });
-    await aiScoreEntry.save();
+      await new AiScore({
+        userId,
+        fileName: result.fileName,
+        postAppliedFor: result.postAppliedFor || '',
+        modelType,
+        aiScore: aiScore.aiScore,
+        positionMatch: result.positionMatch,
+        matchReasons: aiScore.matchReasons || [],
+        mismatchReasons: aiScore.mismatchReasons || [],
+        jobDescription
+      }).save();
+
+      await logAudit({
+        userId,
+        action: 'resume_parsed',
+        modelType,
+        fileName: result.fileName,
+        ip
+      });
+
     } catch (error) {
       errors.push({ fileName: file.originalname, error: error.message || "Failed to parse resume" });
     } finally {
@@ -135,12 +148,12 @@ async function processBatch(files, startIndex, results, errors, modelType, jobDe
   await Promise.all(batchPromises);
 }
 
-// Controller: batchUploadResumes
 exports.batchUploadResumes = async (req, res) => {
   try {
     const modelType = req.body.modelType || 'gemini';
     const jobDescription = req.body.jobDescription || '';
-    const userId = req.user?.id; // assuming user is authenticated
+    const userId = req.user?.id;
+    const ip = req.ip || req.connection.remoteAddress;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
@@ -149,13 +162,12 @@ exports.batchUploadResumes = async (req, res) => {
     const results = [], errors = [], totalFiles = req.files.length;
 
     for (let i = 0; i < totalFiles; i += BATCH_SIZE) {
-      await processBatch(req.files, i, results, errors, modelType, jobDescription, userId);
+      await processBatch(req.files, i, results, errors, modelType, jobDescription, userId, ip);
       if (errors.length > 0) break;
       if (i + BATCH_SIZE < totalFiles) await new Promise(resolve => setTimeout(resolve, BATCH_DELAY));
     }
 
     if (errors.length > 0) return res.status(400).json({ error: "Some resumes failed", errors });
-
     res.status(200).json({ results });
   } catch (err) {
     console.error("Batch upload error:", err);
@@ -163,12 +175,12 @@ exports.batchUploadResumes = async (req, res) => {
   }
 };
 
-// Controller: aiScoreResumes
 exports.aiScoreResumes = async (req, res) => {
   try {
     const modelType = req.body.modelType || 'gemini';
     const jobDescription = req.body.jobDescription || '';
     const userId = req.user?.id;
+    const ip = req.ip || req.connection.remoteAddress;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
@@ -177,15 +189,11 @@ exports.aiScoreResumes = async (req, res) => {
     const results = [], errors = [], totalFiles = req.files.length;
 
     for (let i = 0; i < totalFiles; i += BATCH_SIZE) {
-      await processBatch(req.files, i, results, errors, modelType, jobDescription, userId);
+      await processBatch(req.files, i, results, errors, modelType, jobDescription, userId, ip);
       if (errors.length > 0) break;
     }
 
-    if (errors.length > 0) {
-      console.log(errors);
-      return res.status(400).json({ error: "Some resumes failed", errors });
-    }
-
+    if (errors.length > 0) return res.status(400).json({ error: "Some resumes failed", errors });
     res.status(200).json(results);
   } catch (err) {
     console.error("AI scoring error:", err);
@@ -193,15 +201,12 @@ exports.aiScoreResumes = async (req, res) => {
   }
 };
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 exports.generateCoverLetter = async (req, res) => {
   try {
     const file = req.file;
     const { jobDescription, tone = 'formal' } = req.body;
+    const userId = req.user?.id;
+    const ip = req.ip || req.connection.remoteAddress;
 
     if (!file || !jobDescription) {
       return res.status(400).json({ error: "Resume file and job description are required" });
@@ -219,32 +224,37 @@ exports.generateCoverLetter = async (req, res) => {
 
     const prompt = `
       You are an AI cover letter writer.
-
-      Using this resume information:
+      Using this resume:
       """
       ${resumeText}
       """
-
       And this job description:
       """
       ${jobDescription}
       """
-
-      Write a personalized cover letter for the position applying to, in a ${tone} tone.
-
-      Make it professional, concise, and highlight the candidate's key skills and experience relevant to the job.
-
-      Return ONLY the cover letter text without any additional commentary.
+      Write a personalized cover letter in ${tone} tone. Highlight key strengths, keep it concise and job-specific. Return only the letter content.
     `;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const coverLetter = response.text().trim();
-    console.log("Cover letter generation completed");
+
+    await logAudit({
+      userId,
+      action: 'cover_letter_generated',
+      modelType: 'gemini',
+      fileName: file.originalname,
+      ip
+    });
+
     res.json({ coverLetter });
 
   } catch (error) {
-    console.error("Error generating cover letter:", error);
-    res.status(500).json({ error: "Failed to generate cover letter" });
+    const message = error.message?.toLowerCase().includes("quota") || error.message?.toLowerCase().includes("overloaded")
+      ? "Model is currently overloaded. Please try again later."
+      : "Failed to generate cover letter";
+
+    console.error("Error generating cover letter:", error.message);
+    res.status(500).json({ error: message });
   }
 };

@@ -7,7 +7,9 @@ function NavBar() {
   const { token, role, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const adminDropdownRef = useRef(null);
 
   const handleLogout = () => {
     logout();
@@ -18,10 +20,17 @@ function NavBar() {
     setDropdownOpen(prev => !prev);
   };
 
+  const toggleAdminDropdown = () => {
+    setAdminDropdownOpen(prev => !prev);
+  };
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (adminDropdownRef.current && !adminDropdownRef.current.contains(event.target)) {
+        setAdminDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -31,7 +40,6 @@ function NavBar() {
   return (
     <nav className="navbar">
       <ul className="navbar-list">
-        {/* Show Home only for regular users */}
         {token && role === 'user' && (
           <li>
             <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
@@ -40,7 +48,6 @@ function NavBar() {
           </li>
         )}
 
-        {/* Both admin and user can access these */}
         {token && (role === 'user' || role === 'admin') && (
           <>
             <li>
@@ -61,16 +68,47 @@ function NavBar() {
           </>
         )}
 
-        {/* Admin dashboard only for admin */}
+        {/* Admin Controls Dropdown */}
         {token && role === 'admin' && (
-          <li>
-            <NavLink to="/adminDashboard" className={({ isActive }) => (isActive ? 'active-link' : '')}>
-              Admin Dashboard
-            </NavLink>
+          <li className="navbar-dropdown" ref={adminDropdownRef}>
+            <button onClick={toggleAdminDropdown} className="dropdown-toggle">
+              Admin Controls ▾
+            </button>
+            {adminDropdownOpen && (
+              <ul className="dropdown-menu">
+                <li>
+                  <NavLink
+                    to="/adminDashboard"
+                    className={({ isActive }) => (isActive ? 'active-link' : '')}
+                    onClick={() => setAdminDropdownOpen(false)}
+                  >
+                    Admin Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/auditlogs"
+                    className={({ isActive }) => (isActive ? 'active-link' : '')}
+                    onClick={() => setAdminDropdownOpen(false)}
+                  >
+                    Audit Logs
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/view-users"
+                    className={({ isActive }) => (isActive ? 'active-link' : '')}
+                    onClick={() => setAdminDropdownOpen(false)}
+                  >
+                    View Users
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
         )}
 
-        {/* Dropdown for logged in users/admins */}
+        {/* User/Admin Profile Dropdown */}
         {token ? (
           <li className="navbar-dropdown" ref={dropdownRef}>
             <button onClick={toggleDropdown} className="dropdown-toggle">
@@ -96,8 +134,12 @@ function NavBar() {
             )}
           </li>
         ) : (
-          // Not logged in: show login/register
           <>
+            <li>
+              <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : '')}>
+                Home
+              </NavLink>
+            </li>
             <li>
               <NavLink to="/login" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Login
