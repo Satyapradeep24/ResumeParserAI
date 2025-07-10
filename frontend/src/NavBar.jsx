@@ -39,6 +39,12 @@ function NavBar() {
 
   return (
     <nav className="navbar">
+      {/* Logo and Title */}
+      <div className="navbar-brand">
+        <span className="logo" role="img" aria-label="logo">🧞‍♂️</span>
+        <h1 className="navbar-title">Resume Genie</h1>
+      </div>
+
       <ul className="navbar-list">
         {token && role === 'user' && (
           <li>

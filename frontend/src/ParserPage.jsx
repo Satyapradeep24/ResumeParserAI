@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import './App.css'; 
 
+import './ParserPage.css';
 
 function ExpandableCell({ content }) {
   const [expanded, setExpanded] = useState(false);

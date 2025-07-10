@@ -1,79 +1,123 @@
 .admin-dashboard {
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   min-height: 100vh;
-  color: #333;
+  color: #f0f0f0;
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #63a4ff;
 }
 
 .logout-btn {
   background: #d32f2f;
   border: none;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 4px;
+  border-radius: 8px;
   transition: background 0.3s ease;
 }
+
 .logout-btn:hover {
   background: #b71c1c;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
 
 .stat-card {
-  background: white;
-  padding: 1.2rem;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1.4rem;
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   gap: 1rem;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
 }
 
 .stat-icon {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
 }
 
 .stat-value {
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
 }
 
 .stat-title {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.95rem;
+  color: #ddd;
 }
 
 .analytics-section {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1.8rem;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  color: #f0f0f0;
+}
+
+.analytics-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  color: #63a4ff;
 }
 
 .charts-placeholder {
   height: 200px;
-  border: 2px dashed #ccc;
+  border: 2px dashed #888;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #999;
+  color: #ccc;
   font-style: italic;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.error-msg {
+  background-color: rgba(248, 215, 218, 0.9);
+  color: #842029;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #f5c2c7;
+  text-align: left;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }

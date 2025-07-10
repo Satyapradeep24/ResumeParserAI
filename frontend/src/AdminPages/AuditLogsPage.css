@@ -1,25 +1,26 @@
 .audit-logs-page {
   min-height: 100vh;
   padding: 30px 0;
-  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
-  /* light blue gradient */
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Dark gradient */
 }
 
-/* Container (unchanged per your instruction) */
+/* Container */
 .audit-logs-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 40px auto;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.07);
   padding: 30px 40px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  color: #f0f0f0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .audit-logs-container h2 {
   text-align: center;
   margin-bottom: 25px;
-  color: #1a3e7b; /* dark blue */
+  color: #63a4ff;
   font-weight: 700;
   font-size: 2rem;
   letter-spacing: 1px;
@@ -43,25 +44,25 @@
 .form-group label {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #13406a; /* deep blue */
+  color: #add8ff;
 }
 
-.form-group input[type="text"],
-.form-group input[type="date"],
+.form-group input,
 .form-group select {
-  padding: 8px 12px;
+  padding: 10px 12px;
   font-size: 16px;
-  border-radius: 6px;
-  border: 1.5px solid #a9c5ff; /* soft blue */
+  border-radius: 8px;
+  border: 1.5px solid #a9c5ff;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
   transition: border-color 0.3s ease;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="date"]:focus,
+.form-group input:focus,
 .form-group select:focus {
+  border-color: #63a4ff;
   outline: none;
-  border-color: #3f72af; /* medium blue */
-  box-shadow: 0 0 6px #a7c0ff; /* blue glow */
+  box-shadow: 0 0 6px #63a4ff;
 }
 
 .buttons-group {
@@ -74,7 +75,7 @@
 .buttons-group button {
   padding: 10px 20px;
   font-weight: 600;
-  background-color: #1a3e7b; /* dark blue */
+  background-color: #63a4ff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -84,16 +85,16 @@
 }
 
 .buttons-group button:hover:not(:disabled) {
-  background-color: #3468a7; /* medium blue */
+  background-color: #417bc4;
 }
 
 .buttons-group button:disabled {
-  background-color: #bbb;
+  background-color: #999;
   cursor: not-allowed;
 }
 
 .error-msg {
-  color: #d32f2f;
+  color: #ff6f61;
   font-weight: 600;
   text-align: center;
   margin-bottom: 15px;
@@ -107,26 +108,37 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .logs-table th,
 .logs-table td {
   padding: 14px 12px;
-  border: 1px solid #cdd9f8; /* light blue border */
+  border: 1px solid #8ab3ff33;
   text-align: left;
   vertical-align: middle;
+  color: #f0f0f0;
 }
 
 .logs-table th {
-  background-color: #1a3e7b; /* dark blue */
+  background-color: #417bc4;
   color: white;
   font-weight: 700;
   letter-spacing: 0.8px;
 }
 
 .logs-table tbody tr:nth-child(even) {
-  background-color: #e6f0ff; /* very light blue */
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.logs-table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.logs-table tbody tr td {
+  word-break: break-word;
 }
 
 .pagination-controls {
@@ -136,11 +148,11 @@
   margin-top: 25px;
   gap: 25px;
   font-weight: 600;
-  color: #1a3e7b; /* dark blue */
+  color: #add8ff;
 }
 
 .pagination-controls button {
-  background-color: #1a3e7b; /* dark blue */
+  background-color: #63a4ff;
   border: none;
   padding: 8px 14px;
   color: white;
@@ -150,10 +162,21 @@
 }
 
 .pagination-controls button:disabled {
-  background-color: #aaa;
+  background-color: #666;
   cursor: not-allowed;
 }
 
 .pagination-controls button:hover:not(:disabled) {
-  background-color: #3468a7; /* medium blue */
+  background-color: #417bc4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .audit-logs-container {
+    padding: 20px;
+  }
+
+  .form-group {
+    min-width: 100%;
+  }
 }

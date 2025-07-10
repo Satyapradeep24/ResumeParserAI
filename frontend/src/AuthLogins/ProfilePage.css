@@ -1,136 +1,176 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #e0e0e0;
 }
 
-.profile-page {
+.ai-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 30px 10px;
+  box-sizing: border-box;
 }
 
-.profile-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+.ai-container {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   padding: 30px;
-  max-width: 800px;
+  max-width: 700px;
   width: 100%;
+  color: #e0e0e0;
 }
 
-.error-msg {
-  color: red;
-  margin-bottom: 10px;
-  font-weight: bold;
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #63a4ff;
+  margin-bottom: 20px;
 }
 
 .results-box {
   margin-top: 20px;
   overflow-x: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px;
 }
 
 .results-box table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  font-size: 1rem;
+  color: #e0e0e0;
 }
 
-.results-box th,
-.results-box td {
-  border: 1px solid #ccc;
-  padding: 10px;
+.results-box th, .results-box td {
   text-align: left;
-  font-size: 16px;
+  padding: 10px;
+  border-bottom: 1px solid #4a90e2;
 }
 
 .results-box th {
-  background: #f0f8ff;
-  font-weight: bold;
+  background: rgba(100, 160, 255, 0.1);
+  font-weight: 600;
+  color: #63a4ff;
 }
 
-.ai-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 30px 10px;
+a {
+  color: #63a4ff;
+  text-decoration: underline;
 }
-.ai-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  max-width: 600px;
-  width: 100%;
+
+a:hover {
+  color: #3c7bd9;
 }
-.results-box table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 1rem;
-}
-.results-box th, .results-box td {
-  text-align: left;
-  padding: 8px 10px;
-  border-bottom: 1px solid #ddd;
-}
+
+/* Update Button */
 .update-btn {
   margin-top: 20px;
-  padding: 10px 16px;
-  background-color: #007bff;
+  padding: 12px 20px;
+  background-color: #63a4ff;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
 .update-btn:hover {
-  background-color: #0056b3;
+  background-color: #3c7bd9;
 }
+
+/* Edit Mode Form */
 .update-form label {
   display: block;
-  margin: 10px 0 5px;
+  margin: 12px 0 6px;
   font-weight: 600;
+  color: #a8c0ff;
 }
+
 .update-form input {
   width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1.5px solid #4a90e2;
+  border-radius: 10px;
   font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f0f0f0;
+  transition: border-color 0.3s ease;
 }
+
+.update-form input:focus {
+  border-color: #63a4ff;
+  outline: none;
+  box-shadow: 0 0 10px #63a4ff;
+}
+
+.update-form input::placeholder {
+  color: #aaa;
+}
+
+/* Form buttons */
 .form-buttons {
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
+
 .form-buttons button {
-  padding: 10px 16px;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 12px 20px;
+  font-weight: 700;
+  border-radius: 10px;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
+  transition: 0.3s ease;
 }
+
+/* Save button */
 .form-buttons button[type="submit"] {
   background-color: #28a745;
   color: white;
+  box-shadow: 0 0 12px #28a745;
 }
+
 .form-buttons button[type="submit"]:disabled {
   background-color: #94d3a2;
   cursor: not-allowed;
+  box-shadow: none;
 }
+
+/* Cancel button */
 .form-buttons button[type="button"] {
   background-color: #dc3545;
   color: white;
+  box-shadow: 0 0 12px #dc3545;
 }
+
+/* Messages */
 .error-msg {
-  color: red;
-  margin-top: 10px;
+  color: #ff6b6b;
+  background-color: rgba(255, 50, 50, 0.15);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ff6b6b;
+  font-weight: 600;
+  text-align: center;
 }
+
 .success-msg {
-  color: green;
-  margin-top: 10px;
+  color: #198754;
+  background-color: rgba(40, 167, 69, 0.15);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #198754;
+  font-weight: 600;
+  text-align: center;
 }
+

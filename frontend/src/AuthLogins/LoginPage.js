@@ -63,15 +63,7 @@ function LoginPage() {
           onClick={() => {
             window.location.href = "http://localhost:3000/auth/google";
           }}
-          style={{
-            backgroundColor: '#4285F4',
-            color: 'white',
-            padding: '10px 20px',
-            borderRadius: '4px',
-            border: 'none',
-            cursor: 'pointer',
-            marginTop: '20px'
-          }}
+          className="login-google-btn"
         >
           Login with Google
         </button>

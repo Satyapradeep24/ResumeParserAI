@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import JobHunt from './images/JobHunt.png';
+import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
@@ -55,63 +56,25 @@ function Home() {
     { label: '😊 User Satisfaction', value: 'In Progress...' },
   ];
 
-  const cardStyle = {
-    borderRadius: '12px',
-    background: '#fff',
-    padding: '30px',
-    boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
-    minWidth: '250px',
-    textAlign: 'center',
-    transition: 'transform 0.3s ease',
-  };
-
-  const ctaBtnStyle = {
-    marginTop: '15px',
-    padding: '12px 24px',
-    fontSize: '1rem',
-    fontWeight: '600',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
-
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #f6a192 0%, #f0d3aa 50%, #d6b4d1 100%)',
-      padding: '50px 20px',
-      boxSizing: 'border-box',
-      fontFamily: 'Segoe UI, sans-serif'
-    }}>
+    <div className="home-container">
       {!user ? (
         <>
           {/* Hero Section */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '50px',
-            marginBottom: '60px'
-          }}>
+          <div className="hero-section">
             <img
               src={JobHunt}
               alt="Job Search"
-              style={{ width: '380px', maxWidth: '90vw', borderRadius: '16px' }}
+              className="hero-image"
             />
-            <div style={{ maxWidth: '500px' }}>
-              <h1 style={{ fontSize: '2.4rem', color: '#333', marginBottom: '20px' }}>
-                Transform Your Resume with AI Power
-              </h1>
-              <p style={{ fontSize: '1.1rem', color: '#555', marginBottom: '30px' }}>
+            <div className="hero-text">
+              <h1>Transform Your Resume with AI Power</h1>
+              <p>
                 Unlock job opportunities with cutting-edge resume parsing, AI scoring, and personalized cover letters.
               </p>
               <button
                 onClick={() => navigate("/register")}
-                style={ctaBtnStyle}
+                className="cta-button"
               >
                 Get Started Free →
               </button>
@@ -119,78 +82,115 @@ function Home() {
           </div>
 
           {/* Features */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '25px',
-            marginBottom: '40px'
-          }}>
+          <div className="features-list">
             {featureList.map(({ icon, text }, idx) => (
-              <div key={idx} style={{
-                ...cardStyle,
-                maxWidth: '300px',
-                fontSize: '1rem',
-                fontWeight: '500',
-                color: '#007bff'
-              }}>
-                <div style={{ fontSize: '2rem', marginBottom: '15px' }}>{icon}</div>
+              <div key={idx} className="feature-card">
+                <div className="feature-icon">{icon}</div>
                 {text}
               </div>
             ))}
           </div>
 
           {/* Stats */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '40px',
-            flexWrap: 'wrap'
-          }}>
+          <div className="stats-list">
             {stats.map(({ label, value }, idx) => (
-              <div key={idx} style={{
-                ...cardStyle,
-                background: '#333',
-                color: 'white',
-                minWidth: '200px',
-                fontSize: '1.2rem'
-              }}>
-                <div style={{ fontSize: '2.2rem', marginBottom: '10px' }}>{value}</div>
+              <div key={idx} className="stats-card">
+                <div className="stats-value">{value}</div>
                 {label}
               </div>
             ))}
           </div>
+          <div className="how-it-works">
+          <h2>📚 How It Works</h2>
+          <p className="subtitle">
+            Turn your resume into job-winning insights in under <strong>30 seconds</strong>
+          </p>
+          <p className="total-time">⏱️ Total Process Time: <strong>~30 seconds</strong></p>
+
+          <div className="timeline">
+            {[
+              {
+                step: '1',
+                title: 'Upload Resume',
+                duration: '5s',
+                description: 'Upload PDF, Word, or image resumes with a click.',
+              },
+              {
+                step: '2',
+                title: 'Extract Details',
+                duration: '8s',
+                description: 'AI instantly reads your resume and extracts data.',
+              },
+              {
+                step: '3',
+                title: 'AI Scoring',
+                duration: '10s',
+                description: 'Resume is scored using Gemini or LLaMA-based models.',
+              },
+              {
+                step: '4',
+                title: 'Cover Letter Generation',
+                duration: '5s',
+                description: 'Smart, personalized letters written for each resume.',
+              },
+              {
+                step: '5',
+                title: 'Download & Use',
+                duration: 'Instant',
+                description: 'Download, copy, or access anytime in history.',
+                note: 'Includes resume log, AI score & generated cover letter.',
+              },
+            ].map((item, idx) => (
+              <div key={idx} className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}>
+                <div className="content">
+                  <h4>
+                    <span className="step-circle">{item.step}</span> {item.title}
+                    <span className="duration">{item.duration}</span>
+                  </h4>
+                  <p>{item.description}</p>
+                  {item.note && <small>{item.note}</small>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <footer className="footer">
+          <div className="footer-content">
+            <div className="footer-left">
+              <p>&copy; {new Date().getFullYear()} AI Resume Parser. All rights reserved.</p>
+            </div>
+            <div className="footer-right">
+              <p>Built with ❤️ by <strong>Nukala Sai Satya Pradeep</strong></p>
+              <p>IVth Year B.Tech, KL University</p>
+            </div>
+          </div>
+        </footer>
 
 
         </>
       ) : (
-        <div style={{ padding: '50px 20px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '2rem', color: '#333' }}>Welcome back, {user.first_name}!</h1>
-          <h3 style={{ color: '#555', marginTop: '10px' }}>Your Personalized Dashboard</h3>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '30px',
-            marginTop: '40px',
-            flexWrap: 'wrap'
-          }}>
-            <div style={cardStyle}>
+        <div className="dashboard">
+          <h1>Welcome back, {user.first_name}!</h1>
+          <h3>Your Personalized Dashboard</h3>
+          <div className="dashboard-cards">
+            <div className="dashboard-card">
               <h3>Parsed Resume Count</h3>
-              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{parsedCount}</p>
-              <button style={ctaBtnStyle} onClick={() => navigate("/resume-history")}>
+              <p className="count">{parsedCount}</p>
+              <button className="cta-button" onClick={() => navigate("/resume-history")}>
                 View History
               </button>
             </div>
-            <div style={cardStyle}>
+            <div className="dashboard-card">
               <h3>AI Score Submissions</h3>
-              <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{aiScoreCount}</p>
-              <button style={ctaBtnStyle} onClick={() => navigate("/ai-score-history")}>
+              <p className="count">{aiScoreCount}</p>
+              <button className="cta-button" onClick={() => navigate("/ai-score-history")}>
                 View AI Scores
               </button>
             </div>
-            <div style={cardStyle}>
+            <div className="dashboard-card">
               <h3>Active AI Model</h3>
-              <p style={{ fontSize: '1.4rem', fontWeight: 'bold' }}>Gemini (Default)</p>
+              <p className="count">Gemini (Default)</p>
             </div>
           </div>
         </div>
