@@ -33,14 +33,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
 
-mongoose.connect('mongodb://localhost:27017/resume_parser_db', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
 .then(() => console.log("✅ MongoDB connected"))
 .catch((err) => {
   console.error("❌ MongoDB connection error:", err);
-  process.exit(1); 
+  process.exit(1);
 });
 
 const PORT = process.env.PORT || 3000;
