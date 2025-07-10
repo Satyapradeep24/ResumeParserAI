@@ -151,11 +151,11 @@ function NavBar() {
                 Login
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/register" className={({ isActive }) => (isActive ? 'active-link' : '')}>
                 Register
               </NavLink>
-            </li>
+            </li> */}
           </>
         )}
       </ul>

@@ -17,7 +17,6 @@ function Home() {
 
     const fetchParsedCount = async () => {
       try {
-        // const response = await fetch(`http://localhost:3000/api/auth/count?userId=${userId}`, {
         const response = await fetch(`https://resumeparserai.onrender.com/api/auth/count?userId=${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -30,7 +29,6 @@ function Home() {
 
     const fetchAiScoreCount = async () => {
       try {
-        // const response = await fetch(`http://localhost:3000/api/auth/ai-score-count?userId=${userId}`, {
         const response = await fetch(`https://resumeparserai.onrender.com/api/auth/ai-score-count?userId=${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -83,6 +81,16 @@ function Home() {
             </div>
           </div>
 
+          {/* Gemini Highlight */}
+          <div className="ai-highlight-banner">
+            <h5>🚀 Powered by Google's Gemini LLM</h5>
+            <p>
+              Our platform harnesses the advanced capabilities of <strong>Gemini Large Language Models</strong> to deliver fast, precise, and intelligent resume parsing, scoring, and cover letter generation.
+              <br />
+              Experience cutting-edge AI assistance trusted by professionals and students alike.
+            </p>
+          </div>
+
           {/* Features */}
           <div className="features-list">
             {featureList.map(({ icon, text }, idx) => (
@@ -102,74 +110,71 @@ function Home() {
               </div>
             ))}
           </div>
+
+          {/* Timeline */}
           <div className="how-it-works">
-          <h2>📚 How It Works</h2>
-          <p className="subtitle">
-            Turn your resume into job-winning insights in under <strong>30 seconds</strong>
-          </p>
-          <p className="total-time">⏱️ Total Process Time: <strong>~30 seconds</strong></p>
+            <h2>📚 How It Works</h2>
+            <p className="subtitle">
+              Turn your resume into job-winning insights in under <strong>30 seconds</strong>
+            </p>
+            <p className="total-time">⏱️ Total Process Time: <strong>~30 seconds</strong></p>
 
-          <div className="timeline">
-            {[
-              {
-                step: '1',
-                title: 'Upload Resume',
-                duration: '5s',
-                description: 'Upload PDF, Word, or image resumes with a click.',
-              },
-              {
-                step: '2',
-                title: 'Extract Details',
-                duration: '8s',
-                description: 'AI instantly reads your resume and extracts data.',
-              },
-              {
-                step: '3',
-                title: 'AI Scoring',
-                duration: '10s',
-                description: 'Resume is scored using Gemini or LLaMA-based models.',
-              },
-              {
-                step: '4',
-                title: 'Cover Letter Generation',
-                duration: '5s',
-                description: 'Smart, personalized letters written for each resume.',
-              },
-              {
-                step: '5',
-                title: 'Download & Use',
-                duration: 'Instant',
-                description: 'Download, copy, or access anytime in history.',
-                note: 'Includes resume log, AI score & generated cover letter.',
-              },
-            ].map((item, idx) => (
-              <div key={idx} className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}>
-                <div className="content">
-                  <h4>
-                    <span className="step-circle">{item.step}</span> {item.title}
-                    <span className="duration">{item.duration}</span>
-                  </h4>
-                  <p>{item.description}</p>
-                  {item.note && <small>{item.note}</small>}
+            <div className="timeline">
+              {[
+                {
+                  step: '1',
+                  title: 'Upload Resume',
+                  duration: '5s',
+                  description: 'Upload PDF, Word, or image resumes with a click.',
+                },
+                {
+                  step: '2',
+                  title: 'Extract Details',
+                  duration: '8s',
+                  description: 'AI instantly reads your resume and extracts data.',
+                },
+                {
+                  step: '3',
+                  title: 'AI Scoring',
+                  duration: '10s',
+                  description: 'Resume is scored using Gemini or LLaMA-based models.',
+                },
+                {
+                  step: '4',
+                  title: 'Cover Letter Generation',
+                  duration: '5s',
+                  description: 'Smart, personalized letters written for each resume.',
+                },
+                {
+                  step: '5',
+                  title: 'Download & Use',
+                  duration: 'Instant',
+                  description: 'Download, copy, or access anytime in history.',
+                  note: 'Includes resume log, AI score & generated cover letter.',
+                },
+              ].map((item, idx) => (
+                <div key={idx} className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}>
+                  <div className="content">
+                    <h4>
+                      <span className="step-circle">{item.step}</span> {item.title}
+                      <span className="duration">{item.duration}</span>
+                    </h4>
+                    <p>{item.description}</p>
+                    {item.note && <small>{item.note}</small>}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-left">
-              <p>&copy; {new Date().getFullYear()} AI Resume Parser. All rights reserved.</p>
-            </div>
-            <div className="footer-right">
-              <p>Built with ❤️ by <strong>Nukala Sai Satya Pradeep</strong></p>
-              <p>IVth Year B.Tech, KL University</p>
+              ))}
             </div>
           </div>
-        </footer>
 
-
+          {/* Disclaimer */}
+          <div className="disclaimer-section">
+            <p>
+              <strong>Note:</strong> This platform utilizes the free-tier of the Gemini API. During periods of high demand, you may experience occasional delays or processing failures while uploading or generating content. 
+              <br />
+              We appreciate your patience and are working towards scaling for better stability.
+            </p>
+          </div>
         </>
       ) : (
         <div className="dashboard">

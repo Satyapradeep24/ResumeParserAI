@@ -126,6 +126,17 @@ function App() {
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <footer className="footer">
+          <div className="footer-content">
+            <div className="footer-left">
+              <p>&copy; {new Date().getFullYear()} AI Resume Parser. All rights reserved.</p>
+            </div>
+            <div className="footer-right">
+              <p>Built with ❤️ by <strong>Nukala Sai Satya Pradeep</strong></p>
+              <p>IVth Year B.Tech, KL University</p>
+            </div>
+          </div>
+        </footer>
       </Router>
     </AuthProvider>
   );
