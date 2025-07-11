@@ -111,7 +111,7 @@ app.get('/auth/google/callback',
       const result = await authController.handleGoogleLogin(profile);
 
       if (result.isNewUser) {
-        const redirectURL = new URL('http://localhost:3001/complete-profile');
+        const redirectURL = new URL('https://resume-parser-ai-eight.vercel.app/complete-profile');
         redirectURL.searchParams.set('email', result.prefill.email);
         redirectURL.searchParams.set('first_name', result.prefill.first_name);
         redirectURL.searchParams.set('last_name', result.prefill.last_name);
@@ -119,7 +119,7 @@ app.get('/auth/google/callback',
       }
 
       // 🔥 Redirect with token for existing users
-      return res.redirect(`http://localhost:3001/login-success#token=${result.token}`);
+      return res.redirect(`https://resume-parser-ai-eight.vercel.app/login-success#token=${result.token}`);
     } catch (err) {
       console.error('Google login error:', err);
       res.redirect('/login');
