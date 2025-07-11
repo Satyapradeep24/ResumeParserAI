@@ -153,7 +153,7 @@ exports.batchUploadResumes = async (req, res) => {
     const modelType = req.body.modelType || 'gemini';
     const jobDescription = req.body.jobDescription || '';
     const userId = req.user?.id;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || req.connection.remoteAddress;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
@@ -180,7 +180,7 @@ exports.aiScoreResumes = async (req, res) => {
     const modelType = req.body.modelType || 'gemini';
     const jobDescription = req.body.jobDescription || '';
     const userId = req.user?.id;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || req.connection.remoteAddress;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
@@ -206,7 +206,7 @@ exports.generateCoverLetter = async (req, res) => {
     const file = req.file;
     const { jobDescription, tone = 'formal' } = req.body;
     const userId = req.user?.id;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || req.connection.remoteAddress;
 
     if (!file || !jobDescription) {
       return res.status(400).json({ error: "Resume file and job description are required" });
